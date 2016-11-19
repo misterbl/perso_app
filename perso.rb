@@ -1,11 +1,12 @@
 require 'sinatra'
 
 require 'sinatra/base'
+require 'slim'
 
-class Perso < Sinatra::Base  
+class Perso < Sinatra::Base
 
   get '/' do
-      'Hello World!'
+      slim :home
 
       end
 end
