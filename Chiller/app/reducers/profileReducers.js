@@ -2,8 +2,9 @@ const INIT = {
   username: "",
   age: null,
   city: "",
+  currentUser: {},
 }
-export default (state = INIT, { type, username, age, city }) => {
+export default (state = INIT, { type, username, age, city, currentUser }) => {
   switch (type) {
     case 'SET_PROFILE':
       return {
@@ -11,6 +12,11 @@ export default (state = INIT, { type, username, age, city }) => {
         username,
         age,
         city,
+      };
+      case 'RETRIEVE_PROFILE':
+        return {
+          ...state,
+          currentUser,
       };
       default:
       return state;
