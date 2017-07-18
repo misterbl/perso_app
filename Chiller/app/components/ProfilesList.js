@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
+import Realm from 'realm';
 import { connect } from 'react-redux';
 const {
   ScrollView,
@@ -9,22 +10,26 @@ const {
   TouchableHighlight,
   StyleSheet,
 } = ReactNative;
-import { setProfile } from '../actions/profileActions.js'
-
+import { setProfile, realm } from '../actions/profileActions.js'
 
 class ProfilesList extends Component {
   static navigationOptions = {
     title: 'List of profiles',
   };
   render() {
-    console.log(this);
+    console.log(realm.objects('User')[0]);
+
     return (
-      <View style={{ height: 30, marginTop: 50 }}>
+    <View>
+      {realm.objects('User').map((user) => (
+        <View>
           <Text>Your Profile:</Text>
-          <Text> Username: {this.props.profile.username} </Text>
-            <Text> Age: {this.props.profile.age} </Text>
-              <Text> City: {this.props.profile.city} </Text>
-      </View>
+          <Text> Username: {user.name} </Text>
+          <Text> Age: {user.age} </Text>
+          <Text> City: {user.city} </Text>
+        </View>
+        ))}
+  </View>
     );
   }
 

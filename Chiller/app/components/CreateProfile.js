@@ -9,7 +9,8 @@ const {
   TouchableHighlight,
   StyleSheet,
 } = ReactNative;
-import { setProfile } from '../actions/profileActions.js'
+import { setProfile, retrieveProfile } from '../actions/profileActions.js'
+
 
 
 class CreateProfile extends Component {
@@ -20,9 +21,10 @@ class CreateProfile extends Component {
     super(props);
     this.state = { usernameInput: "", ageInput: null, cityInput: "" }
   }
+
 returnProfile(name, age, city) {
-  console.log("save");
   this.props.setProfile(name, age, city);
+  this.props.retrieveProfile(name);
 }
   render() {
     return (
@@ -46,15 +48,15 @@ returnProfile(name, age, city) {
           value={this.state.cityInput}
         />
         <View>
-          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.returnProfile(this.state.usernameInput, this.state.ageInput, this.state.cityInput) }>
-            <Text>Save Profile</Text>
+          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.returnProfile(this.state.usernameInput, parseInt(this.state.ageInput), this.state.cityInput) }>
+            <Text>Save Profile!</Text>
           </TouchableHighlight>
         </View>
         <View>
           <Text>Your Profile:</Text>
-          <Text> Username: {this.props.profile.username} </Text>
-            <Text> Age: {this.props.profile.age} </Text>
-              <Text> City: {this.props.profile.city} </Text>
+          <Text> Username: {this.state.usernameInput} </Text>
+            <Text> Age: {this.state.ageInput} </Text>
+              <Text> City: {this.state.cityInput} </Text>
         </View>
       </View>
     );
@@ -67,6 +69,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setProfile,
+  retrieveProfile,
 };
 
 export default connect(

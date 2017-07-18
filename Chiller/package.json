@@ -10,7 +10,8 @@
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.46.3",
 		"react-native-navigation": "^1.1.136",
-		"react-navigation": "^1.0.0-beta.11"
+		"react-navigation": "^1.0.0-beta.11",
+		"realm": "^1.10.0"
 	},
 	"devDependencies": {
 		"babel-plugin-transform-object-rest-spread": "^6.23.0",
