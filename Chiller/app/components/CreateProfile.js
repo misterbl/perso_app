@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import ReactNative from 'react-native';
 import { connect } from 'react-redux';
-const {
+import { Icon } from 'react-native-elements';
+import {
   ScrollView,
   View,
   Text,
   TextInput,
   TouchableHighlight,
   StyleSheet,
-} = ReactNative;
+} from 'react-native';
 import { setProfile, retrieveProfile, assign } from '../actions/profileActions.js'
 
-class CreateProfile extends Component {
+class CreateProfile extends React.Component {
   static navigationOptions = {
     title: 'Create a Profile',
   };
@@ -49,7 +50,14 @@ returnProfile(name, age, city) {
 }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
+      <View>
+       <View style={{flex: 1, flexDirection: 'row'}}>
+      <Icon style={{ marginLeft: 60, width: 100, height: 50 }} name='person' onPress={() => navigate('CreateProfile')} />
+      <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => navigate('ProfilesList')} />
+      <Icon style={{ width: 100, height: 50 }} name='my location' onPress={() => navigate('ProfilesList')} />
+      </View>
       <View style={{ height: 30, marginTop: 50 }}>
         <TextInput
           returnKeyType='search'
@@ -81,6 +89,7 @@ returnProfile(name, age, city) {
               <Text> Latitude: {this.props.profile.latitude} </Text>
               <Text> Longitude: {this.props.profile.longitude} </Text>
         </View>
+      </View>
       </View>
     );
   }

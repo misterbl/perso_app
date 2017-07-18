@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import Realm from 'realm';
 import { connect } from 'react-redux';
-const {
+import {
   ScrollView,
   View,
   Text,
   TextInput,
   TouchableHighlight,
   StyleSheet,
-} = ReactNative;
+}  from 'react-native';
 import { setProfile, realm, assign } from '../actions/profileActions.js'
 
 class ProfilesList extends Component {
