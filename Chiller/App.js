@@ -6,14 +6,14 @@ import { store } from './app/store/configureStore'
 import HomeScreen from './app/components/HomeScreen'
 import CreateProfile from './app/components/CreateProfile'
 import ProfilesList from './app/components/ProfilesList'
-import NavBar from './app/components/NavBar'
+import UserProfile from './app/components/userProfile'
 
 
 const App = StackNavigator({
   Home: { screen: HomeScreen },
   CreateProfile: { screen: CreateProfile },
   ProfilesList: { screen: ProfilesList },
-  NavBar: { screen: NavBar },
+  UserProfile: { screen: UserProfile },
 });
 
 export default App;

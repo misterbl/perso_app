@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableHighlight,
   StyleSheet,
+  Button,
 }  from 'react-native';
 import { setProfile, realm, assign } from '../actions/profileActions.js'
 
@@ -23,14 +24,18 @@ componentDidMount() {
   });
 }
   render() {
+    const { navigate } = this.props.navigation;
     return (
     <View>
       {realm.objects('User').map((user) => (
         <View>
-          <Text>Your Profile:</Text>
           <Text> Username: {user.name} </Text>
           <Text> Age: {user.age} </Text>
           <Text> City: {user.city} </Text>
+          <Button
+            onPress={() => navigate('UserProfile', { user: `${user.name}` })}
+            title="View profile"
+      />
         </View>
         ))}
   </View>
