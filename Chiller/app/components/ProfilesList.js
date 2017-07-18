@@ -4,7 +4,10 @@ import Realm from 'realm';
 import { connect } from 'react-redux';
 const {
   ScrollView,
+  FlatList,
   View,
+  ImageBackground,
+  Image,
   Text,
   TextInput,
   TouchableHighlight,
@@ -16,28 +19,46 @@ class ProfilesList extends Component {
   static navigationOptions = {
     title: 'List of profiles',
   };
-componentDidMount() {
-  console.log(this);
-  navigator.geolocation.watchPosition(function(position) {
-  console.log(position.coords.latitude, position.coords.longitude);
-  });
-}
+
   render() {
     return (
-    <View>
-      {realm.objects('User').map((user) => (
+      <View style={styles.container}>
+       <FlatList
+        data={realm.objects('User')}
+        renderItem={({item}) =>
         <View>
-          <Text>Your Profile:</Text>
-          <Text> Username: {user.name} </Text>
-          <Text> Age: {user.age} </Text>
-          <Text> City: {user.city} </Text>
-        </View>
-        ))}
-  </View>
+        <ImageBackground
+          style={styles.image}
+          source={require('../assets/avataruser.png')} >
+        <Text> Username: {item.name} </Text>
+        <Text> Age: {item.age} </Text>
+        <Text> City: {item.city} </Text>
+        <Text>{'\n'}</Text>
+      </ImageBackground>
+    </View>}
+    />
+    </View>
     );
   }
-
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+   flex: 1,
+   paddingTop: 22
+  },
+  item: {
+    height: 80,
+  },
+  image: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: undefined,
+    height: undefined,
+  }
+})
+
 const mapStateToProps = state => ({
   profile: state.profile,
 });
