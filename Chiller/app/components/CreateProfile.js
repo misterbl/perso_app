@@ -78,7 +78,8 @@ returnProfile(name, age, city) {
           <Text>Your Profile:</Text>
           <Text> Username: {this.state.usernameInput} </Text>
             <Text> Age: {this.state.ageInput} </Text>
-              <Text> City: {this.state.cityInput} </Text>
+              <Text> Latitude: {this.props.profile.latitude} </Text>
+              <Text> Longitude: {this.props.profile.longitude} </Text>
         </View>
       </View>
     );
