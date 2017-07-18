@@ -9,7 +9,10 @@
 	"dependencies": {
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.46.3",
+		"react-native-elements": "^0.15.0",
 		"react-native-navigation": "^1.1.136",
+		"react-native-side-menu": "^1.0.2",
+		"react-native-vector-icons": "^4.2.0",
 		"react-navigation": "^1.0.0-beta.11",
 		"realm": "^1.10.0"
 	},
