@@ -35,7 +35,6 @@ export function setProfile(username, age, city) {
   realm.write(() => {
    let user = realm.create('User', {name: username, age: age, city: city });
   let users = realm.objects('User').filtered(`name = "${username}"`);
-  console.log(users);
   });
 } catch (e) {
   console.log("Error on creation");
@@ -54,5 +53,15 @@ export function retrieveProfile(username) {
   return {
     type: 'RETRIEVE_PROFILE',
     currentUser: current,
+  }
+}
+
+export function assign(latitude, longitude, error) {
+  console.log("hello");
+  return {
+    type: 'ASSIGN_LOCATION',
+    latitude: latitude,
+    longitude: longitude,
+    error: error,
   }
 }

@@ -10,15 +10,19 @@ const {
   TouchableHighlight,
   StyleSheet,
 } = ReactNative;
-import { setProfile, realm } from '../actions/profileActions.js'
+import { setProfile, realm, assign } from '../actions/profileActions.js'
 
 class ProfilesList extends Component {
   static navigationOptions = {
     title: 'List of profiles',
   };
+componentDidMount() {
+  console.log(this);
+  navigator.geolocation.watchPosition(function(position) {
+  console.log(position.coords.latitude, position.coords.longitude);
+  });
+}
   render() {
-    console.log(realm.objects('User')[0]);
-
     return (
     <View>
       {realm.objects('User').map((user) => (
@@ -40,6 +44,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setProfile,
+  assign,
 };
 
 export default connect(
