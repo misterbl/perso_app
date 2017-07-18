@@ -3,8 +3,11 @@ const INIT = {
   age: null,
   city: "",
   currentUser: {},
+  latitude: null,
+  longitude: null,
+  error: null,
 }
-export default (state = INIT, { type, username, age, city, currentUser }) => {
+export default (state = INIT, { type, username, age, city, currentUser, geoLocation, latitude, longitude, error }) => {
   switch (type) {
     case 'SET_PROFILE':
       return {
@@ -17,6 +20,13 @@ export default (state = INIT, { type, username, age, city, currentUser }) => {
         return {
           ...state,
           currentUser,
+      };
+      case 'ASSIGN_LOCATION':
+        return {
+          ...state,
+          latitude,
+          longitude,
+          error,
       };
       default:
       return state;
