@@ -7,7 +7,6 @@ import { Provider } from 'react-redux'
 import { store } from './app/store/configureStore'
 import App from './App';
 
-
 class Chiller extends Component {
   render() {
 
