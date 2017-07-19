@@ -18,7 +18,7 @@ class HomeScreen extends React.Component {
        <View style={{flex: 1, flexDirection: 'row'}}>
       <Icon style={{ marginLeft: 60, width: 100, height: 50 }} name='person' onPress={() => navigate('CreateProfile')} />
       <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => navigate('ProfilesList')} />
-      <Icon style={{ width: 100, height: 50 }} name='my location' onPress={() => navigate('ProfilesList')} />
+      <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => navigate('ProfilesList')} />
       </View>
       <Button
         onPress={() => navigate('CreateProfile')}
