@@ -12,6 +12,7 @@ import {
   Button,
 }  from 'react-native';
 import { setProfile, realm, assign } from '../actions/profileActions.js'
+import { Header } from './HomeScreen'
 
 class ProfilesList extends Component {
   static navigationOptions = {
@@ -27,6 +28,7 @@ componentDidMount() {
     const { navigate } = this.props.navigation;
     return (
     <View>
+      <Header {...this.props}/>
       {realm.objects('User').map((user) => (
         <View>
           <Text> Username: {user.name} </Text>
