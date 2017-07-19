@@ -13,7 +13,6 @@ export class Header extends React.Component {
   };
 
   render() {
-    console.log(this);
     const { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
@@ -30,7 +29,6 @@ export class HomeScreen extends React.Component {
     title: 'Chiller',
   };
   render() {
-    console.log(this);
      const { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>

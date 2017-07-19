@@ -45,18 +45,15 @@ returnProfile(name, age, city) {
   this.props.retrieveProfile(name);
   this.props.assign(this.state.latitude, this.state.longitude, this.state.error);
   this.state.profileSaved = true;
-  console.log(this);
 }
 
 makeAgeArray(min, max) {
-    console.log("hello");
   while(min <= max){ this.state.arr.push(min++);};
   this.mapAge()
 }
 
 mapAge(){
 return this.state.arr.map((age) => {
-  console.log((age).toString());
   return(
     <Picker.Item label="Java" value="java" />
   )
