@@ -12,21 +12,19 @@ import {
   Button,
 }  from 'react-native';
 import { setProfile, realm, assign } from '../actions/profileActions.js'
+import { Header } from './HomeScreen'
 
 class ProfilesList extends Component {
   static navigationOptions = {
     title: 'List of profiles',
   };
-componentDidMount() {
-  console.log(this);
-  navigator.geolocation.watchPosition(function(position) {
-  console.log(position.coords.latitude, position.coords.longitude);
-  });
-}
+
   render() {
     const { navigate } = this.props.navigation;
     return (
-    <View>
+      <View style={{flex: 1}}>
+        <Header {...this.props} style={{height: "60%" }}/>
+    <ScrollView style={{height: "80%" }}>
       {realm.objects('User').map((user) => (
         <View>
           <Text> Username: {user.name} </Text>
@@ -35,9 +33,10 @@ componentDidMount() {
           <Button
             onPress={() => navigate('UserProfile', { user: `${user.name}` })}
             title="View profile"
-      />
+          />
         </View>
         ))}
+  </ScrollView>
   </View>
     );
   }

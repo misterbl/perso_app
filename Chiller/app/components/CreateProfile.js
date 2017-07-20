@@ -5,7 +5,7 @@ import { Card, Icon, FormLabel, FormInput, FormValidationMessage } from 'react-n
 import { Picker, ScrollView, View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
 import { setProfile, retrieveProfile, assign } from '../actions/profileActions.js'
 import AgePicker from './AgePicker';
-
+import { Header } from './HomeScreen'
 
 class CreateProfile extends React.Component {
   static navigationOptions = {
@@ -45,18 +45,15 @@ returnProfile(name, age, city) {
   this.props.retrieveProfile(name);
   this.props.assign(this.state.latitude, this.state.longitude, this.state.error);
   this.state.profileSaved = true;
-  console.log(this);
 }
 
 makeAgeArray(min, max) {
-    console.log("hello");
   while(min <= max){ this.state.arr.push(min++);};
   this.mapAge()
 }
 
 mapAge(){
 return this.state.arr.map((age) => {
-  console.log((age).toString());
   return(
     <Picker.Item label="Java" value="java" />
   )
@@ -67,13 +64,9 @@ return this.state.arr.map((age) => {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
-       <View style={{flex: 1, flexDirection: 'row'}}>
-      <Icon style={{ marginLeft: 60, width: 100, height: 50 }} name='person' onPress={() => navigate('CreateProfile')} />
-      <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => navigate('ProfilesList')} />
-      <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => navigate('ProfilesList')} />
-      </View>
-      <Card containerStyle={{marginTop: 40, backgroundColor: "white"}} title="Edit your profile" >
+       <View>
+         <Header {...this.props}/>
+      <Card containerStyle={{marginTop: 40, backgroundColor: "white"}} title="Create your profile" >
         <FormInput
           placeholder='username'
           onChangeText={ (usernameInput) => this.setState({usernameInput}) }
@@ -145,7 +138,7 @@ return this.state.arr.map((age) => {
           <Text> Username: {this.state.usernameInput} </Text>
             <Text> Age: {this.state.ageInput} </Text>
         </View>
-        </Card>
+      </Card>
       </View>
     );
   }
