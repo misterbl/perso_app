@@ -6,8 +6,9 @@ const INIT = {
   latitude: null,
   longitude: null,
   error: null,
+  about:"",
 }
-export default (state = INIT, { type, username, age, city, currentUser, geoLocation, latitude, longitude, error }) => {
+export default (state = INIT, { type, username, age, city, currentUser, geoLocation, latitude, longitude, error, about }) => {
   switch (type) {
     case 'SET_PROFILE':
       return {
@@ -15,6 +16,7 @@ export default (state = INIT, { type, username, age, city, currentUser, geoLocat
         username,
         age,
         city,
+        about,
       };
       case 'RETRIEVE_PROFILE':
         return {

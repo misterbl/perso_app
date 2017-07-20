@@ -25,6 +25,7 @@ class CreateProfile extends React.Component {
       error: null,
       arr: [],
       profileSaved: false,
+      userAbout: "",
     }
   }
 
@@ -43,10 +44,10 @@ class CreateProfile extends React.Component {
         );
 }
 
-returnProfile(name, age, city) {
-  this.props.setProfile(name, age, city);
-  this.props.retrieveProfile(name);
-  this.props.assign(this.state.latitude, this.state.longitude, this.state.error);
+returnProfile(name, age, city, about) {
+  this.props.setProfile(name, age, city, about);
+  // this.props.retrieveProfile(name);
+  // this.props.assign(this.state.latitude, this.state.longitude, this.state.error);
   this.state.profileSaved = true;
 }
 
@@ -65,17 +66,20 @@ return this.state.arr.map((age) => {
 
 
   render() {
-    console.log(_this);
+    console.log(this);
     const { navigate } = this.props.navigation;
     return (
        <View style={{backgroundColor: '#f7f391'}}>
-      <Card containerStyle={{marginTop: 40, backgroundColor: "white"}} title="Create your profile" >
+      <Card containerStyle={{position: 'relative', marginTop: 40, backgroundColor: "white"}} title="Create your profile" >
+        <View style= {{ width: '100%', position: 'relative'}}>
         <FormInput
           placeholder='username'
           onChangeText={ (usernameInput) => this.setState({usernameInput}) }
           value={this.state.usernameInput}
         />
         <FormValidationMessage>Required</FormValidationMessage>
+      </View>
+        <Text>Age</Text>
         <Picker
           selectedValue={this.state.ageInput}
           onValueChange={(itemValue, itemIndex) => this.setState({ageInput: itemValue})}>
@@ -131,15 +135,23 @@ return this.state.arr.map((age) => {
           onChangeText={ (cityInput) => this.setState({cityInput}) }
           value={this.state.cityInput}
         />
+        <FormInput
+          // maxLength={4}
+          // containerStyle={{ position: 'relative', width: '50%'}}
+           style={{width: '100%', fontSize: 17}}
+          placeholder='About me'
+          onChangeText={ (userAbout) => this.setState({userAbout}) }
+          value={this.state.userAbout}
+          multiline={true}
+
+        />
         <View>
-          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.returnProfile(this.state.usernameInput, parseInt(this.state.ageInput), this.state.cityInput) }>
+          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.returnProfile(this.state.usernameInput, parseInt(this.state.ageInput), this.state.cityInput, this.state.userAbout) }>
             <Text>Save Profile!</Text>
           </TouchableHighlight>
         </View>
         <View>
           { this.state.profileSaved && <Text style={{ color: "red", fontSize: 20, fontWeight: 'bold' }}>Profile saved! </Text>}
-          <Text> Username: {this.state.usernameInput} </Text>
-            <Text> Age: {this.state.ageInput} </Text>
         </View>
       </Card>
       </View>

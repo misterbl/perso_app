@@ -1,7 +1,7 @@
-// import Realm from 'realm';
-// import * as types from './types';
-// import Api from '../lib/api';
-//
+//import Realm from 'realm';
+import * as types from './types';
+import Api from '../lib/api';
+
 // export let realm = new Realm({
 //   schema: [{ name: 'User', properties: {
 //     name: 'string',
@@ -30,7 +30,16 @@
 // // }
 // // };
 //
-// export function setProfile(username, age, city) {
+export function setProfile(username, age, city, about) {
+  return {
+    type: 'SET_PROFILE',
+    username,
+    age,
+    city,
+    about,
+  }
+}
+// export function saveProfile(username, age, city) {
 //   try {
 //   realm.write(() => {
 //    let user = realm.create('User', {name: username, age: age, city: city });

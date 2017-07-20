@@ -19,7 +19,7 @@ export class Header extends React.Component {
       <View style={{flexDirection: 'row', height: 40, marginTop: 30, backgroundColor: '#f7f391'}}>
      <Icon style={{ marginLeft: 60, width: 100, height: 50, marginTop: 5}} color='#bd91f7'  name='person' onPress={() => navigate('CreateProfile')} />
      <Icon style={{ width: 100, height: 50, marginTop: 5  }} color='#bd91f7' name='sms' onPress={() => navigate('ProfilesList')} />
-     <Icon style={{ width: 100, height: 50, marginTop: 5 }} color='#bd91f7' name='sms' onPress={() => navigate('ProfilesList')} />
+     <Icon style={{ width: 100, height: 50, marginTop: 5 }} color='#bd91f7' name='sms' onPress={() => navigate('UserProfile')} />
      </View>
     );
   }
@@ -34,6 +34,7 @@ export class HomeScreen extends React.Component {
     _this = this;
   }
   render() {
+    console.log(this);
      const { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1, flexDirection: 'column', backgroundColor: '#f7f391'}}>
