@@ -1,5 +1,6 @@
 import React  from 'react';
 import ReactNative from 'react-native';
+import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import { Card, Icon, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { Picker, ScrollView, View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
@@ -7,9 +8,10 @@ import { setProfile, retrieveProfile, assign } from '../actions/profileActions.j
 import AgePicker from './AgePicker';
 import { Header } from './HomeScreen'
 
+let _this;
 class CreateProfile extends React.Component {
   static navigationOptions = {
-    title: 'Create a Profile',
+   header:  <Header/>
   };
 
   constructor(props){
@@ -27,6 +29,7 @@ class CreateProfile extends React.Component {
   }
 
   componentWillMount() {
+    _this = this;
     navigator.geolocation.getCurrentPosition(
           (position) => {
             this.setState({
@@ -62,10 +65,10 @@ return this.state.arr.map((age) => {
 
 
   render() {
+    console.log(_this);
     const { navigate } = this.props.navigation;
     return (
-       <View>
-         <Header {...this.props}/>
+       <View style={{backgroundColor: '#f7f391'}}>
       <Card containerStyle={{marginTop: 40, backgroundColor: "white"}} title="Create your profile" >
         <FormInput
           placeholder='username'

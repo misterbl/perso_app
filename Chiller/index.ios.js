@@ -13,7 +13,7 @@ class Chiller extends Component {
 
    return (
      <Provider store={store}>
-     <App/>
+     <App style={{backgroundColor: '#f7f391'}}/>
      </Provider>
    )
   }
