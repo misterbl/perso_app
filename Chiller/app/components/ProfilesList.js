@@ -23,7 +23,7 @@ class ProfilesList extends Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1}}>
-        <Header {...this.props}/>
+        <Header {...this.props} style={{height: "60%" }}/>
     <ScrollView style={{height: "80%" }}>
       {realm.objects('User').map((user) => (
         <View>
