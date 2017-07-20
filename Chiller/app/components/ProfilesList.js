@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
-import Realm from 'realm';
+//import Realm from 'realm';
 import { connect } from 'react-redux';
 import {
   ScrollView,
@@ -16,16 +16,15 @@ import { Header } from './HomeScreen'
 
 class ProfilesList extends Component {
   static navigationOptions = {
-    title: 'List of profiles',
+   header:  <Header/>,
   };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={{flex: 1}}>
-        <Header {...this.props} style={{height: "60%" }}/>
+      <View style={{flex: 1, backgroundColor: '#f7f391'}}>
     <ScrollView style={{height: "80%" }}>
-      {realm.objects('User').map((user) => (
+      {/* {realm.objects('User').map((user) => (
         <View>
           <Text> Username: {user.name} </Text>
           <Text> Age: {user.age} </Text>
@@ -35,7 +34,7 @@ class ProfilesList extends Component {
             title="View profile"
           />
         </View>
-        ))}
+        ))} */}
   </ScrollView>
   </View>
     );
