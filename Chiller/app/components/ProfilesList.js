@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
-import Realm from 'realm';
+//import Realm from 'realm';
 import { connect } from 'react-redux';
 import {
   ScrollView,
@@ -11,23 +11,19 @@ import {
   StyleSheet,
   Button,
 }  from 'react-native';
-import { setProfile, realm, assign } from '../actions/profileActions.js'
+import { setProfile, assign } from '../actions/profileActions.js'
+import { Header } from './HomeScreen'
 
 class ProfilesList extends Component {
-  static navigationOptions = {
-    title: 'List of profiles',
-  };
-componentDidMount() {
-  console.log(this);
-  navigator.geolocation.watchPosition(function(position) {
-  console.log(position.coords.latitude, position.coords.longitude);
-  });
-}
+
   render() {
-    const { navigate } = this.props.navigation;
     return (
-    <View>
-      {realm.objects('User').map((user) => (
+      <View style={{flex: 1, backgroundColor: '#f7f391'}}>
+        <View  style={{ marginTop: 40}}>
+          <Header {...this.props}/>
+          </View>
+    {/* <ScrollView style={{height: "80%" }}> */}
+      {/* {realm.objects('User').map((user) => (
         <View>
           <Text> Username: {user.name} </Text>
           <Text> Age: {user.age} </Text>
@@ -35,9 +31,10 @@ componentDidMount() {
           <Button
             onPress={() => navigate('UserProfile', { user: `${user.name}` })}
             title="View profile"
-      />
+          />
         </View>
-        ))}
+        ))} */}
+  {/* </ScrollView> */}
   </View>
     );
   }
