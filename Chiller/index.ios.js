@@ -5,16 +5,13 @@ import { bindActionCreators } from 'redux'
 import { setProfile } from './app/actions/profileActions.js'
 import { Provider } from 'react-redux'
 import { store } from './app/store/configureStore'
-import App from './App';
+import { App } from './App';
 
 
 class Chiller extends Component {
   render() {
-
    return (
-     <Provider store={store}>
      <App style={{backgroundColor: '#f7f391'}}/>
-     </Provider>
    )
   }
 }

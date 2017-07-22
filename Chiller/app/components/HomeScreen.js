@@ -9,40 +9,33 @@ import { Icon } from 'react-native-elements';
 let _this;
 
 export class Header extends React.Component {
-  static navigationOptions = {
-    title: 'Header',
-  };
 
   render() {
-    const { navigate } = _this.props.navigation;
+    console.log(this);
     return (
-      <View style={{flexDirection: 'row', height: 40, marginTop: 30, backgroundColor: '#f7f391'}}>
-     <Icon style={{ marginLeft: 60, width: 100, height: 50, marginTop: 5}} color='#bd91f7'  name='person' onPress={() => navigate('CreateProfile')} />
-     <Icon style={{ width: 100, height: 50, marginTop: 5  }} color='#bd91f7' name='sms' onPress={() => navigate('ProfilesList')} />
-     <Icon style={{ width: 100, height: 50, marginTop: 5 }} color='#bd91f7' name='sms' onPress={() => navigate('ProfilesList')} />
+      <View style={{flex: 1, flexDirection: 'row' }}>
+        <Icon style={{ marginLeft: 60, width: 100, height: 50, backgroundColor: "transparent" }}
+               name='person' onPress={() => this.props.navigator.push({name: "Create Profile"})} />
+        <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => this.props.navigator.push({name: "Profiles List"})} />
+        <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => this.props.navigator.push({name: "Profiles List"})} />
      </View>
     );
   }
 
 }
 export class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header:  <Header {...this.props}/>
-,
-  };
   componentWillMount() {
     _this = this;
   }
   render() {
-     const { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1, flexDirection: 'column', backgroundColor: '#f7f391'}}>
       <Button
-        onPress={() => navigate('CreateProfile')}
+        onPress={() => this.props.navigator.push({name: "Create Profile"})}
         title="Create a profile"
       />
       <Button
-        onPress={() => navigate('ProfilesList')}
+        onPress={() => this.props.navigator.push({name: "Profiles List"})}
         title="List of profiles"
       />
     </View>

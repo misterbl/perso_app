@@ -10,10 +10,6 @@ import { Header } from './HomeScreen'
 
 let _this;
 class CreateProfile extends React.Component {
-  static navigationOptions = {
-   header:  <Header/>
-  };
-
   constructor(props){
     super(props);
     this.state = {
@@ -43,9 +39,21 @@ class CreateProfile extends React.Component {
         );
 }
 
+
+assign(username, age, city, latitude, longitude, error) {
+    this.state.profileSaved = true;
+  this.props.profile.latitude = latitude;
+  this.props.profile.longitude = longitude;
+  this.props.profile.error = error;
+  this.props.profile.username = username;
+    this.props.profile.age = age;
+    this.props.profile.city = city;
+
+}
+
 returnProfile(name, age, city) {
-  this.props.setProfile(name, age, city);
-  this.props.retrieveProfile(name);
+  // this.props.setProfile(name, age, city);
+  // this.props.retrieveProfile(name);
   this.props.assign(this.state.latitude, this.state.longitude, this.state.error);
   this.state.profileSaved = true;
 }
@@ -62,20 +70,19 @@ return this.state.arr.map((age) => {
   )
 })
 }
-
-
   render() {
-    console.log(_this);
-    const { navigate } = this.props.navigation;
     return (
        <View style={{backgroundColor: '#f7f391'}}>
+         <View  style={{ marginTop: 40}}>
+           <Header {...this.props}/>
+           </View>
       <Card containerStyle={{marginTop: 40, backgroundColor: "white"}} title="Create your profile" >
         <FormInput
           placeholder='username'
           onChangeText={ (usernameInput) => this.setState({usernameInput}) }
           value={this.state.usernameInput}
         />
-        <FormValidationMessage>Required</FormValidationMessage>
+
         <Picker
           selectedValue={this.state.ageInput}
           onValueChange={(itemValue, itemIndex) => this.setState({ageInput: itemValue})}>
@@ -132,13 +139,15 @@ return this.state.arr.map((age) => {
           value={this.state.cityInput}
         />
         <View>
-          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.returnProfile(this.state.usernameInput, parseInt(this.state.ageInput), this.state.cityInput) }>
+          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.props.navigator.push({
+                name: "Profiles List"
+            }) }>
             <Text>Save Profile!</Text>
           </TouchableHighlight>
         </View>
         <View>
           { this.state.profileSaved && <Text style={{ color: "red", fontSize: 20, fontWeight: 'bold' }}>Profile saved! </Text>}
-          <Text> Username: {this.state.usernameInput} </Text>
+          <Text> Username is: {this.state.usernameInput}</Text>
             <Text> Age: {this.state.ageInput} </Text>
         </View>
       </Card>

@@ -11,19 +11,18 @@ import {
   StyleSheet,
   Button,
 }  from 'react-native';
-import { setProfile, realm, assign } from '../actions/profileActions.js'
+import { setProfile, assign } from '../actions/profileActions.js'
 import { Header } from './HomeScreen'
 
 class ProfilesList extends Component {
-  static navigationOptions = {
-   header:  <Header/>,
-  };
 
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1, backgroundColor: '#f7f391'}}>
-    <ScrollView style={{height: "80%" }}>
+        <View  style={{ marginTop: 40}}>
+          <Header {...this.props}/>
+          </View>
+    {/* <ScrollView style={{height: "80%" }}> */}
       {/* {realm.objects('User').map((user) => (
         <View>
           <Text> Username: {user.name} </Text>
@@ -35,7 +34,7 @@ class ProfilesList extends Component {
           />
         </View>
         ))} */}
-  </ScrollView>
+  {/* </ScrollView> */}
   </View>
     );
   }
