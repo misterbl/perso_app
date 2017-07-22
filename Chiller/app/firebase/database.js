@@ -10,6 +10,7 @@ class Database {
      * Sets a users mobile number
      * @param userId
      * @param mobile
+     * @param images
      * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
      */
     static setUserMobile(userId, mobile) {
@@ -18,6 +19,17 @@ class Database {
 
         return firebase.database().ref(userMobilePath).set({
             mobile: mobile
+        })
+
+    }
+    static setUsername(userId, username, city, age,) {
+
+        let userUsernamePath = "/user/" + userId + "/details";
+
+        return firebase.database().ref(userUsernamePath).set({
+            city: city,
+            username: username,
+            age:age
         })
 
     }

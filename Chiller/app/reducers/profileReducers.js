@@ -28,6 +28,21 @@ export default (state = INIT, { type, username, age, city, currentUser, geoLocat
           longitude,
           error,
       };
+      case 'SET_AGE':
+        return {
+          ...state,
+        age,
+      };
+      case 'SET_CITY':
+        return {
+          ...state,
+          city,
+      };
+      case 'SET_USERNAME':
+        return {
+          ...state,
+        username,
+      };
       default:
       return state;
     }

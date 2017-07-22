@@ -104,8 +104,28 @@ export function retrieveProfile(username) {
   }
 }
 
+export function setAge(age) {
+return {
+  type: 'SET_AGE',
+  age: age,
+}
+}
+
+export function setCity(city) {
+return {
+  type: 'SET_CITY',
+  city: city,
+}
+}
+
+export function setUsername(name) {
+return {
+  type: 'SET_USERNAME',
+  username: name,
+}
+}
+
 export function assign(latitude, longitude, error) {
-  console.log("hello");
   return {
     type: 'ASSIGN_LOCATION',
     latitude: latitude,

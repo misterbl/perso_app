@@ -1,14 +1,18 @@
 import React  from 'react';
 import ReactNative from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import * as firebase from "firebase";
 import { connect } from 'react-redux';
+import DismissKeyboard from "dismissKeyboard";
 import { Card, Icon, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { Picker, ScrollView, View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
-import { setProfile, retrieveProfile, assign } from '../actions/profileActions.js'
+import { setProfile, retrieveProfile, assign, setCity, setUsername, setAge } from '../actions/profileActions.js'
+import Database from "../firebase/database";
 import AgePicker from './AgePicker';
 import { Header } from './HomeScreen'
 
 let _this;
+let user;
 class CreateProfile extends React.Component {
   constructor(props){
     super(props);
@@ -39,7 +43,9 @@ class CreateProfile extends React.Component {
         );
 }
 
-
+  async componentDidMount() {
+     user = await firebase.auth().currentUser;
+  }
 assign(username, age, city, latitude, longitude, error) {
     this.state.profileSaved = true;
   this.props.profile.latitude = latitude;
@@ -70,6 +76,21 @@ return this.state.arr.map((age) => {
   )
 })
 }
+
+    saveUsername() {
+        // Set Mobile
+        if (this.state.usernameInput) {
+            Database.setUsername(user.uid, this.state.usernameInput, this.state.cityInput, this.state.ageInput);
+            DismissKeyboard();
+        }
+        this.props.navigator.push({
+              name: "Profiles List"
+          })
+          this.props.setCity(this.state.cityInput);
+           this.props.setUsername(this.state.usernameInput);
+          this.props.setAge(this.state.ageInput);
+        }
+
   render() {
     return (
        <View style={{backgroundColor: '#f7f391'}}>
@@ -80,12 +101,12 @@ return this.state.arr.map((age) => {
         <FormInput
           placeholder='username'
           onChangeText={ (usernameInput) => this.setState({usernameInput}) }
-          value={this.state.usernameInput}
+           value={this.state.usernameInput}
         />
 
         <Picker
           selectedValue={this.state.ageInput}
-          onValueChange={(itemValue, itemIndex) => this.setState({ageInput: itemValue})}>
+        onValueChange={(itemValue, itemIndex) => this.setState({ageInput: itemValue})}>
           <Picker.Item label="18" value="18" />
           <Picker.Item label="19" value="19" />
           <Picker.Item label="20" value="20" />
@@ -136,18 +157,16 @@ return this.state.arr.map((age) => {
         <FormInput
           placeholder='city'
           onChangeText={ (cityInput) => this.setState({cityInput}) }
-          value={this.state.cityInput}
+            value={this.state.cityInput}
         />
         <View>
-          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.props.navigator.push({
-                name: "Profiles List"
-            }) }>
+          <TouchableHighlight style={{marginTop: 20}} onPress={ () => this.saveUsername()} >
             <Text>Save Profile!</Text>
           </TouchableHighlight>
         </View>
         <View>
           { this.state.profileSaved && <Text style={{ color: "red", fontSize: 20, fontWeight: 'bold' }}>Profile saved! </Text>}
-          <Text> Username is: {this.state.usernameInput}</Text>
+          <Text> Username is: {this.props.profile.username}</Text>
             <Text> Age: {this.state.ageInput} </Text>
         </View>
       </Card>
@@ -164,6 +183,9 @@ const mapDispatchToProps = {
   setProfile,
   retrieveProfile,
   assign,
+  setCity,
+  setUsername,
+  setAge
 };
 
 export default connect(

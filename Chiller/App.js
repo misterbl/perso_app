@@ -35,7 +35,8 @@ export class App extends Component {
 
   getInitialView() {
     firebase.auth().onAuthStateChanged((user) => {
-      let initialView = user ? "Home" : "Login";
+      // let initialView = user ? "Home" : "Login";
+      let initialView = "Create Profile" 
       this.setState({
         userLoaded: true,
         initialView: initialView
