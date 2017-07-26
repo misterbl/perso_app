@@ -1,16 +1,23 @@
 import React  from 'react';
+import PhotoUpload from 'react-native-photo-upload'
 import ReactNative from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import * as firebase from "firebase";
+import RNFetchBlob from 'react-native-fetch-blob'
+//import * as firebase from "firebase";
+
+import firebase from '../firebase/firebase'
 import { connect } from 'react-redux';
 import DismissKeyboard from "dismissKeyboard";
 import { Card, Icon, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
-import { Picker, ScrollView, View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
+import { Picker, Image, ScrollView, View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
 import { setProfile, retrieveProfile, assign, setCity, setUsername, setAge } from '../actions/profileActions.js'
 import Database from "../firebase/database";
 import AgePicker from './AgePicker';
 import { Header } from './HomeScreen'
-
+//import Image from './Image'
+const Blob = RNFetchBlob.polyfill.Blob
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
 let _this;
 let user;
 class CreateProfile extends React.Component {
@@ -25,6 +32,7 @@ class CreateProfile extends React.Component {
       error: null,
       arr: [],
       profileSaved: false,
+      image: {string: null, avatar: {origURL: "https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg", data: null}}
     }
   }
 
@@ -32,19 +40,19 @@ class CreateProfile extends React.Component {
     _this = this;
     navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.setState({
+            _this.setState({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
               error: null,
             });
           },
-          (error) => this.setState({ error: error.message }),
+          (error) => _this.setState({ error: error.message }),
           { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
 }
 
   async componentDidMount() {
-     user = await firebase.auth().currentUser;
+    user = await firebase.auth().currentUser;
   }
 assign(username, age, city, latitude, longitude, error) {
     this.state.profileSaved = true;
@@ -78,11 +86,15 @@ return this.state.arr.map((age) => {
 }
 
     saveUsername() {
+
         // Set Mobile
+
         if (this.state.usernameInput) {
             Database.setUsername(user.uid, this.state.usernameInput, this.state.cityInput, this.state.ageInput);
             DismissKeyboard();
+            this.saveImage();
         }
+
         this.props.navigator.push({
               name: "Profiles List"
           })
@@ -90,14 +102,99 @@ return this.state.arr.map((age) => {
            this.props.setUsername(this.state.usernameInput);
           this.props.setAge(this.state.ageInput);
         }
+        saveImage() {
+        var storage = firebase.storage();
+        var storageRef = storage.ref();
+        var imagesRef = storageRef.child('/imagesUser');
+        var message = this.state.image.avatar;
+        this.uploadImage(this.state.image.avatar)
+        // imagesRef.putString(message).then(function(snapshot) {
+        //   console.log('Uploaded a data_url string!');
+        // });
+  //       var metadata = {
+  //         contentType: 'image/jpeg',
+  // };
+  // imagesRef.putString(message, 'base64').then(function(snapshot) {
+  // console.log('Uploaded a base64 string!');
+// });
+        //imagesRef.put(this.state.avatar);
+      }
+    uploadImage(uri, mime = 'application/octet-stream') {
+      console.log("uri1", uri);
+  return new Promise((resolve, reject) => {
+    //const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+    const uploadUri =  uri
+      const sessionId = new Date().getTime()
+      let uploadBlob = null
+      const imageRef = firebase.storage().ref('images').child(`${sessionId}`)
+      console.log("uri2", uri);
+      // fs.readFile(uploadUri, 'base64')
+      // .then((data) => {
+        return Blob.build(uri, { type: `${mime};BASE64` })
+      // })
+      .then((blob) => {
+        uploadBlob = blob
+        return imageRef.put(blob, { contentType: mime })
+      })
+      .then(() => {
+        uploadBlob.close()
+        return imageRef.getDownloadURL()
+      })
+      .then((url) => {
+        resolve(url)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
 
   render() {
+
     return (
        <View style={{backgroundColor: '#f7f391'}}>
          <View  style={{ marginTop: 40}}>
            <Header {...this.props}/>
            </View>
       <Card containerStyle={{marginTop: 40, backgroundColor: "white"}} title="Create your profile" >
+        <PhotoUpload
+          onPhotoSelect={avatar => {
+            if (avatar) {
+              alert('Image base64 string: ', avatar);
+                this.setState({image:{avatar: avatar}})
+
+                //this.setState({image:{avatar: {data: avatar.data}}})
+
+              };
+            }
+          }
+          >
+          <Image
+            style={{
+              paddingVertical: 30,
+              width: 150,
+              height: 150,
+              borderRadius: 75
+            }}
+            resizeMode='cover'
+            source={{
+              uri: `${this.state.image.avatar.origURL}`
+            }}
+          />
+        </PhotoUpload>
+         {/* <Text>{this.state.image.avatar}</Text> */}
+        {/* <Image
+          style={{
+            paddingVertical: 30,
+            width: 150,
+            height: 150,
+            borderRadius: 75
+          }}
+          resizeMode='cover'
+          source={{
+            uri: `${this.state.image.avatar.origURL}`
+          }}
+        /> */}
         <FormInput
           placeholder='username'
           onChangeText={ (usernameInput) => this.setState({usernameInput}) }

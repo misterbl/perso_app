@@ -4,7 +4,7 @@ import * as firebase from "firebase";
 import { Provider } from 'react-redux';
 import Home from "./includes/views/home";
 import Login from "./includes/views/login";
-//import { Firebase } from "./includes/firebase/firebase";
+import { Firebase } from "./app/firebase/firebase";
 import { store } from './app/store/configureStore'
 import CreateProfile from './app/components/CreateProfile'
 import ProfilesList from './app/components/ProfilesList'
@@ -23,7 +23,7 @@ const APP_BASE = 'https://chiller-58d16.firebaseio.com'
 export class App extends Component {
   constructor(props) {
     super(props);
-    firebase.initializeApp(FIREBASE_CONFIG);
+    //firebase.initializeApp(FIREBASE_CONFIG);
     this.getInitialView();
     this.state = {
       userLoaded: false,
@@ -36,7 +36,7 @@ export class App extends Component {
   getInitialView() {
     firebase.auth().onAuthStateChanged((user) => {
       // let initialView = user ? "Home" : "Login";
-      let initialView = "Create Profile" 
+      let initialView = "Create Profile"
       this.setState({
         userLoaded: true,
         initialView: initialView
