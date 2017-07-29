@@ -1,60 +1,109 @@
 /**
- * @class Database
- */
-
+* @class Database
+*/
+import { Platform } from 'react-native';
+import RNFS from 'react-native-fs';
 import * as firebase from "firebase";
 
+let currentUrl = 5;
 class Database {
 
-    /**
-     * Sets a users mobile number
-     * @param userId
-     * @param mobile
-     * @param images
-     * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
-     */
-    static setUserMobile(userId, mobile) {
+  /**
+  * Sets a users mobile number
+  * @param userId
+  * @param mobile
+  * @param images
+  * @returns {firebase.Promise<any>|!firebase.Promise.<void>}
+  */
+  static setUserMobile(userId, mobile) {
 
-        let userMobilePath = "/user/" + userId + "/details";
+    let userMobilePath = "/user/" + userId + "/details";
 
-        return firebase.database().ref(userMobilePath).set({
-            mobile: mobile
-        })
+    return firebase.database().ref(userMobilePath).set({
+      mobile: mobile
+    })
 
-    }
-    static setUsername(userId, username, city, age,) {
+  }
+  static setImageUrl(userId, url) {
+    let userImagePath = "/user/" + userId + "/images";
+    let postData = { url: url, userId: userId };
+    return firebase.database().ref(userImagePath).push(postData);
+  }
 
-        let userUsernamePath = "/user/" + userId + "/details";
+  static setUsername(userId, username, city, age) {
 
-        return firebase.database().ref(userUsernamePath).set({
-            city: city,
-            username: username,
-            age:age
-        })
+    let userUsernamePath = "/user/" + userId + "/details";
 
-    }
+    return firebase.database().ref(userUsernamePath).set({
+      city: city,
+      username: username,
+      age: age,
+    })
 
-    /**
-     * Listen for changes to a users mobile number
-     * @param userId
-     * @param callback Users mobile number
-     */
-    static listenUserMobile(userId, callback) {
+  }
 
-        let userMobilePath = "/user/" + userId + "/details";
+  /**
+  * Listen for changes to a users mobile number
+  * @param userId
+  * @param callback Users mobile number
+  */
+  static listenUserMobile(userId, callback) {
 
-        firebase.database().ref(userMobilePath).on('value', (snapshot) => {
+    let userMobilePath = "/user/" + userId + "/details";
 
-            var mobile = "";
+    firebase.database().ref(userMobilePath).on('value', (snapshot) => {
 
-            if (snapshot.val()) {
-                mobile = snapshot.val().mobile
-            }
+      var mobile = "";
 
-            callback(mobile)
-        });
-    }
+      if (snapshot.val()) {
+        mobile = snapshot.val().mobile
+      }
 
+      callback(mobile)
+    });
+  }
+
+  static uploadImage(userId, uri, mime = 'application/octet-stream') {
+    return new Promise((resolve, reject) => {
+      const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+      //const uploadUri =   uri.replace('file://', '')
+      const sessionId = new Date().getTime()
+      let uploadBlob = null
+      const imageRef = firebase.storage().ref('images').child(`${sessionId}`)
+      RNFS.readFile(uploadUri, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `${mime};BASE64` })
+      })
+      .then((blob) => {
+        uploadBlob = blob
+        return imageRef.put(uploadBlob, { contentType: mime })
+      })
+      .then(() => {
+        uploadBlob.close()
+        return imageRef.getDownloadURL()
+      })
+      .then((url) => {
+        resolve(url)
+        this.setImageUrl(userId, url)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+    })
+  }
+
+  static getImages(userId) {
+    let userImagePath = "/user/" + userId + "/images";
+    //var userId = firebase.auth().currentUser.uid;
+    let ref = firebase.database().ref(userImagePath)
+    console.log(ref);
+    return ref[0];
+
+    // return firebase.database().ref(userImagePath).once('value').then(function(snapshot) {
+    //   const imageUrl = snapshot.val().url;
+    //   console.log("hello", imageUrl);
+    // });
+  }
 }
 
 module.exports = Database;
