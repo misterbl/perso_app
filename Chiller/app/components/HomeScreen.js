@@ -11,13 +11,12 @@ let _this;
 export class Header extends React.Component {
 
   render() {
-    console.log(this);
     return (
       <View style={{flex: 1, flexDirection: 'row' }}>
         <Icon style={{ marginLeft: 60, width: 100, height: 50, backgroundColor: "transparent" }}
                name='person' onPress={() => this.props.navigator.push({name: "Create Profile"})} />
         <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => this.props.navigator.push({name: "Profiles List"})} />
-        <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => this.props.navigator.push({name: "Profiles List"})} />
+        <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => this.props.navigator.push({name: "Login"})} />
      </View>
     );
   }

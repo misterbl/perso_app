@@ -9,4 +9,5 @@ const APP_BASE = 'https://chiller-58d16.firebaseio.com'
         storageBucket: 'chiller-58d16.appspot.com',
     };
 
-    export const Firebase = firebase.initializeApp(FIREBASE_CONFIG);
+    const Firebase = firebase.initializeApp(FIREBASE_CONFIG);
+    export default Firebase;
