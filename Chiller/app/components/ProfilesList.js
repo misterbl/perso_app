@@ -64,8 +64,9 @@ async componentDidMount() {
           <Image
             style={{
               margin: 10,
-              width: 120,
-              height: 120
+              padding: 40,
+              width: null,
+              height: null
             }}
             resizeMode='cover'
             source={require('../assets/userAvatar.png')}
@@ -74,9 +75,9 @@ async componentDidMount() {
           <Image
             style={{
               margin: 10,
-              padding: 30,
-              width: 120,
-              height: 120
+              padding: 40,
+              width: null,
+              height: null
             }}
             resizeMode='cover'
             source={require('../assets/userAvatar.png')}
@@ -84,9 +85,9 @@ async componentDidMount() {
           <Image
             style={{
               margin: 10,
-              padding: 30,
-              width: 120,
-              height: 120
+              padding: 40,
+              width: null,
+              height: null
             }}
             resizeMode='cover'
             source={require('../assets/userAvatar.png')}
