@@ -28,9 +28,9 @@ async componentDidMount() {
       let imageKey = Object.keys(user.images)[0]
       let image = user.images[imageKey]
       return(
-        <View>
+        <View key={user.key}>
           <Text>{user.details.username}</Text>
-          <TouchableHighlight onPress={() => this.props.navigator.push({name: "User Profile"})}>
+          <TouchableHighlight onPress={() => this.props.navigator.push({name: "User Profile", passProps: { userChatting: user}})}>
         <Image
           style={{
             paddingVertical: 30,

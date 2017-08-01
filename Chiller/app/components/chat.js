@@ -22,32 +22,39 @@ class Chat extends React.Component {
     constructor(props) {
   super(props);
   this.state = {
-    key: 1}
+    key: 1,
+    messages: []}
 }
 componentDidMount() {
   const user = this.props.profile.currentUser;
+  const userChatting = this.props.userChatting;
+
+  let messagesUserPath = firebase.database().ref("/messages/" + user.uid + userChatting.key);
+  //let messagesUserChattingPath = "/messages/" + userChatting.key + user.uid ;
   // Database.getMessages(user)
   // let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
-  // this.listenForMessages(messagesRef);
+  this.listenForMessages(messagesUserPath);
 }
   // componentWillMount() {
   //   let _this = this;
   // }
 
-  // listenForMessages(messagesRef) {
-  //   messagesRef.on('value', (dataSnapshot) => {
-  //     dataSnapshot.forEach((child) => {
-  //       this.props.profile.messages.push({
-  //         from: child.val().from,
-  //         image: child.val().image,
-  //         name: child.val().name,
-  //         position: child.val().position,
-  //         text: child.val().text,
-  //         uniqueId  : child.val().key
-  //       });
-  //     });
-  //     });
-  // }
+  listenForMessages(messagesRef) {
+    messagesRef.on('value', (dataSnapshot) => {
+      // this.setState({messages: []})
+      dataSnapshot.forEach((child) => {
+        this.props.profile.messages.push({
+          from: child.val().from,
+          to: child.val().to,
+          image: child.val().image,
+          name: child.val().name,
+          position: child.val().position,
+          text: child.val().text,
+          uniqueId: Math.random()
+        });
+      });
+      });
+  }
 
   // handleSend(message = {}, rowID = null) {
   //   console.log("this", this);
@@ -59,13 +66,13 @@ componentDidMount() {
     };
 
 getMessages() {
-  return this.props.profile.messages
+  return this.state.messages;
 }
 
 handleSend(message = {}, rowID = null) {
   console.log(this);
-  Database.setMessages(message, user)
-  this.setState({ key: this.state + 1 });
+  Database.setMessages(message, user, this.props.userChatting)
+  this.setState({ key: this.state.key + 1 });
 };
 
   render() {

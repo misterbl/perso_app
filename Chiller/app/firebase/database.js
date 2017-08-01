@@ -30,19 +30,36 @@ class Database {
     let postData = { url: url, userId: userId };
     return firebase.database().ref(userImagePath).push(postData);
   }
+  //
+  // static setMessages(message, user, userChatting) {
+  //   let userMessagesPath = "/user/" + user.uid + "/messages";
+  //   let postData = {
+  //     text: `${message.text}`,
+  //     name: `${user.uid}`,
+  //     from: `${user.uid}`,
+  //     to: `${userChatting.key}`,
+  //     image: {uri: 'https://facebook.github.io/react/img/logo_og.png'},
+  //     position: 'right',
+  //     date: new Date(),
+  //   };
+  //   return firebase.database().ref(userMessagesPath).push(postData);
+  // }
 
-  static setMessages(message, user) {
-    let userImagePath = "/user/" + user.uid + "/messages";
+  static setMessages(message, user, userChatting) {
+    let messagesUserPath = "/messages/" + user.uid + userChatting.key;
+    let messagesUserChattingPath = "/messages/" + userChatting.key + user.uid ;
     let postData = {
       text: `${message.text}`,
-      name: `${user.uid}`,
-      from: '',
+      name: `${user.username}`,
+      from: `${user.uid}`,
+      to: `${userChatting.key}`,
       image: {uri: 'https://facebook.github.io/react/img/logo_og.png'},
       position: 'right',
       date: new Date(),
     };
-    return firebase.database().ref(userImagePath).push(postData);
+    return firebase.database().ref(messagesUserPath).push(postData) && firebase.database().ref(messagesUserChattingPath).push(postData) ;
   }
+
   static getMessages(user) {
     let userMessagesPath = "/user/" + user.uid + "/messages";
     return ref;

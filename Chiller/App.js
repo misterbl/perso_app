@@ -57,15 +57,15 @@ export class App extends Component {
         return (<CreateProfile navigator={navigator} />);
         break;
       case "Profiles List":
-        return (<ProfilesList navigator={navigator} />);
+        return (<ProfilesList navigator={navigator} {...route.passProps} />);
         break;
       case "User Profile":
-        return (<UserProfile navigator={navigator} />);
+        return (<UserProfile navigator={navigator} {...route.passProps} />);
         break;
       case "Header":
         return (<Header navigator={navigator} />);
       case "Chat":
-        return (<Chat navigator={navigator} />);
+        return (<Chat navigator={navigator} {...route.passProps}/>);
         break;
     }
   }

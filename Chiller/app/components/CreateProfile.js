@@ -74,7 +74,7 @@ class CreateProfile extends React.Component {
     this.props.profile.users.push({
       details: child.val().details,
       images: child.val().images,
-      _key: child.key
+      key: child.key
     });
   });
   });
@@ -92,7 +92,7 @@ class CreateProfile extends React.Component {
   }
 
   listenForMessages(messagesRef) {
-    messagesRef.on('value', (dataSnapshot) => {
+    messagesRef.once('value', (dataSnapshot) => {
       dataSnapshot.forEach((child) => {
         this.props.profile.messages.push({
           from: child.val().from,
