@@ -25,10 +25,12 @@ async componentDidMount() {
 
   mapUsers= users => (
     users.map(user => {
-      if (user.images[0]) {
+      let imageKey = Object.keys(user.images)[0]
+      let image = user.images[imageKey]
       return(
         <View>
           <Text>{user.details.username}</Text>
+          <TouchableHighlight onPress={() => this.props.navigator.push({name: "User Profile"})}>
         <Image
           style={{
             paddingVertical: 30,
@@ -38,12 +40,12 @@ async componentDidMount() {
           }}
           resizeMode='cover'
           source={{
-            uri: `${user.images.image1.url}`
+            uri: `${image.url}`
           }}
         />
+        </TouchableHighlight>
         </View>
       )
-    }
     }
   )
 )
@@ -57,7 +59,8 @@ async componentDidMount() {
           <Header {...this.props}/>
           </View>
           <View style={style}>
-            <TouchableHighlight onPress={() => this.props.navigator.push({name: "User Profile"})}>
+            {this.props.profile.users && this.mapUsers(this.props.profile.users)}
+            {/* <TouchableHighlight onPress={() => this.props.navigator.push({name: "User Profile"})}>
           <Image
             style={{
               margin: 10,
@@ -88,7 +91,7 @@ async componentDidMount() {
             }}
             resizeMode='cover'
             source={require('../assets/userAvatar.png')}
-          />
+          /> */}
           </View>
             </View>
               );
