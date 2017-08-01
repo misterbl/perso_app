@@ -3,6 +3,7 @@
 */
 import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
+import { connect } from 'react-redux';
 import * as firebase from "firebase";
 
 let currentUrl = 5;
@@ -28,6 +29,23 @@ class Database {
     let userImagePath = "/user/" + userId + "/images";
     let postData = { url: url, userId: userId };
     return firebase.database().ref(userImagePath).push(postData);
+  }
+
+  static setMessages(message, user) {
+    let userImagePath = "/user/" + user.uid + "/messages";
+    let postData = {
+      text: `${message.text}`,
+      name: `${user.uid}`,
+      from: '',
+      image: {uri: 'https://facebook.github.io/react/img/logo_og.png'},
+      position: 'right',
+      date: new Date(),
+    };
+    return firebase.database().ref(userImagePath).push(postData);
+  }
+  static getMessages(user) {
+    let userMessagesPath = "/user/" + user.uid + "/messages";
+    return ref;
   }
 
   static setUsername(userId, username, city, age) {
@@ -96,7 +114,6 @@ class Database {
     let userImagePath = "/user/" + userId + "/images";
     //var userId = firebase.auth().currentUser.uid;
     let ref = firebase.database().ref(userImagePath)
-    console.log(ref);
     return ref[0];
 
     // return firebase.database().ref(userImagePath).once('value').then(function(snapshot) {
@@ -105,5 +122,14 @@ class Database {
     // });
   }
 }
+const mapStateToProps = state => ({
+  profile: state.profile,
+});
 
-module.exports = Database;
+const mapDispatchToProps = {};
+
+export default connect(
+             mapStateToProps,
+             mapDispatchToProps
+           )(Database);
+//module.exports = Database;

@@ -2,14 +2,16 @@ const INIT = {
   username: "",
   age: null,
   city: "",
-  currentUser: {},
+  currentUser: null,
   latitude: null,
   longitude: null,
   error: null,
   image: {origURL: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'},
   avatar: null,
   images:[],
-  users:[]
+  users:[],
+  messages:[],
+  key: null
 }
 export default (state = INIT, { type, username, age, city, currentUser, geoLocation, latitude, longitude, error }) => {
   switch (type) {

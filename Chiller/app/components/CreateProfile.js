@@ -59,12 +59,14 @@ class CreateProfile extends React.Component {
 
   async componentDidMount() {
     user = await firebase.auth().currentUser;
-    console.log("diMOunt");
+    this.props.profile.currentUser = user;
       let tasksRef = firebase.database().ref("/user/" + user.uid + "/images");
     this.listenForTasks(tasksRef);
       Database.getImages(user.uid)
       let usersRef = firebase.database().ref("/user/");
       this.listenForUsers(usersRef);
+      let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
+      this.listenForMessages(messagesRef);
   }
   listenForUsers(tasksRef) {
   tasksRef.on('value', (dataSnapshot) => {
@@ -75,7 +77,6 @@ class CreateProfile extends React.Component {
       _key: child.key
     });
   });
-  console.log("users", this.props.profile.users[0].images);
   });
   }
 
@@ -87,8 +88,22 @@ class CreateProfile extends React.Component {
         _key: child.key
       });
     });
-    console.log("images", this.props.profile.images);
   });
+  }
+
+  listenForMessages(messagesRef) {
+    messagesRef.on('value', (dataSnapshot) => {
+      dataSnapshot.forEach((child) => {
+        this.props.profile.messages.push({
+          from: child.val().from,
+          image: child.val().image,
+          name: child.val().name,
+          position: child.val().position,
+          text: child.val().text,
+          uniqueId: child.key
+        });
+      });
+      });
   }
 
 assign(username, age, city, latitude, longitude, error) {
@@ -191,7 +206,6 @@ getImage() {
 // });
 // }
   render() {
-    console.log("imageeeee", this.props.profile.images[0]);
     return (
        <View style={{backgroundColor: '#f7f391'}}>
          <View  style={{ marginTop: 40}}>

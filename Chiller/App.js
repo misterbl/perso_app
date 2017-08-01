@@ -10,6 +10,7 @@ import CreateProfile from './app/components/CreateProfile'
 import ProfilesList from './app/components/ProfilesList'
 import UserProfile from './app/components/userProfile'
 import {Header} from './app/components/HomeScreen'
+import Chat from './app/components/chat'
 
 
 const APP_BASE = 'https://chiller-58d16.firebaseio.com'
@@ -63,6 +64,8 @@ export class App extends Component {
         break;
       case "Header":
         return (<Header navigator={navigator} />);
+      case "Chat":
+        return (<Chat navigator={navigator} />);
         break;
     }
   }
