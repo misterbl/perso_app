@@ -7,23 +7,49 @@ import {
   View,
 } from 'react-native';
 import GiftedMessenger from 'react-native-gifted-messenger';
+import DismissKeyboard from "dismissKeyboard";
+import Database from "../firebase/database";
 var {Dimensions} = React;
+import firebase from '../firebase/firebase'
+import { connect } from 'react-redux';
+
 
 // //import {GiftedChat, Actions, Bubble} from 'react-native-gifted-chat';
 // import CustomActions from './CustomActions';
 // import CustomView from './CustomView';
 
-export default class Example extends React.Component {
+class Chat extends React.Component {
 
-  getMessages() {
-    return [
-      {text: 'Are you building a chat app?', name: 'React-Native', image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, position: 'left', date: new Date(2015, 0, 16, 19, 0)},
-      {text: "Yes, and I use Gifted Messenger!", name: 'Developer', image: null, position: 'right', date: new Date(2015, 0, 17, 19, 0)},
-    ];
-  };
+componentDidMount() {
+  const user = this.props.profile.currentUser;
+  Database.getMessages(user)
+  let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
+  this.listenForMessages(messagesRef);
+  this.getMessages();
+}
+  componentWillMount() {
+    let this2 = this;
+  }
+
+  listenForMessages(messagesRef) {
+    messagesRef.on('value', (dataSnapshot) => {
+      dataSnapshot.forEach((child) => {
+        this.props.profile.messages.push({
+          from: child.val().from,
+          image: child.val().image,
+          name: child.val().name,
+          position: child.val().position,
+          text: child.val().text,
+          uniqueId  : child.val().key
+        });
+      });
+      });
+  }
 
   handleSend(message = {}, rowID = null) {
-    // Send message.text to your server
+    console.log("this", this);
+    Database.setMessages(message, user)
+    DismissKeyboard();
   };
   handleReceive() {
     this._GiftedMessenger.appendMessage({
@@ -35,14 +61,19 @@ export default class Example extends React.Component {
     });
   };
   render() {
+
+    const messages = this.props.profile.messages;
+    console.log("render", messages);
+    console.log("user", this.props.profile.currentUser);
     return (
-      <GiftedMessenger
+      <GiftedMessenger {...this.props}
         ref={(c) => this._GiftedMessenger = c}
 
-        messages={this.getMessages()}
-        handleSend={this.handleSend}
+        messages={this.props.profile.messages}
+        handleSend={this.getMessagesFirst}
         // maxHeight={Dimensions.get('window').height - 64} // 64 for the navBar
-
+        senderName={this.props.profile.currentUser.uid}
+        displayNames={true}
         styles={{
           bubbleLeft: {
             backgroundColor: '#e6e6eb',
@@ -70,3 +101,14 @@ const styles = StyleSheet.create({
     color: '#aaa',
   },
 });
+
+const mapStateToProps = state => ({
+  profile: state.profile,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(
+             mapStateToProps,
+             mapDispatchToProps
+           )(Chat);

@@ -21,7 +21,6 @@ class ProfilesList extends Component {
 
 async componentDidMount() {
   user = await firebase.auth().currentUser;
-  console.log("diMOunt");;
   }
 
   mapUsers= users => (
@@ -50,9 +49,7 @@ async componentDidMount() {
 )
 
   render() {
-    const style= {display: "flex",  justifyContent: "flex-start", flexDirection: "row", flexWrap: "nowrap", justifyContent: "flex-start" };
-    console.log("typeof", typeof this.props.profile.users[0]);
-    console.log(this);
+    const style= {justifyContent: "flex-start", flexDirection: "row", flexWrap: "nowrap", justifyContent: "flex-start" };
     //if (this.props.profile.users) {console.log("hello", this.props.profile.users[0].images.image1.url)};
     return (
       <View style={{flex: 1, backgroundColor: '#f7f391'}}>
