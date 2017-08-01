@@ -19,8 +19,69 @@ import { Header } from './HomeScreen'
 
 class ProfilesList extends Component {
 
-async componentDidMount() {
-  user = await firebase.auth().currentUser;
+  componentWillMount() {
+    _this = this;
+    navigator.geolocation.getCurrentPosition(
+          (position) => {
+            _this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              error: null,
+            });
+          },
+          (error) => _this.setState({ error: error.message }),
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
+}
+
+  async componentDidMount() {
+    console.log(this);
+    user = await firebase.auth().currentUser;
+    this.props.profile.currentUser = user;
+      let tasksRef = firebase.database().ref("/user/" + user.uid + "/images");
+    this.listenForTasks(tasksRef);
+      Database.getImages(user.uid)
+      let usersRef = firebase.database().ref("/user/");
+      this.listenForUsers(usersRef);
+      let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
+      this.listenForMessages(messagesRef);
+  }
+  listenForUsers(tasksRef) {
+  tasksRef.on('value', (dataSnapshot) => {
+  dataSnapshot.forEach((child) => {
+    this.props.profile.users.push({
+      details: child.val().details,
+      images: child.val().images,
+      key: child.key
+    });
+  });
+  });
+  }
+
+  listenForTasks(tasksRef) {
+  tasksRef.on('value', (dataSnapshot) => {
+    dataSnapshot.forEach((child) => {
+      this.props.profile.images.push({
+        url: child.val().url,
+        _key: child.key
+      });
+    });
+  });
+  }
+
+  listenForMessages(messagesRef) {
+    messagesRef.once('value', (dataSnapshot) => {
+      dataSnapshot.forEach((child) => {
+        this.props.profile.messages.push({
+          from: child.val().from,
+          image: child.val().image,
+          name: child.val().name,
+          position: child.val().position,
+          text: child.val().text,
+          uniqueId: child.key
+        });
+      });
+      });
   }
 
   mapUsers= users => (

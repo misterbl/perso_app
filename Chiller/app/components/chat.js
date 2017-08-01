@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import PhotoUpload from 'react-native-photo-upload';
 import GiftedMessenger from 'react-native-gifted-messenger';
 import DismissKeyboard from "dismissKeyboard";
 import Database from "../firebase/database";
@@ -43,6 +44,8 @@ componentDidMount() {
     messagesRef.on('value', (dataSnapshot) => {
       // this.setState({messages: []})
       dataSnapshot.forEach((child) => {
+        let pos = "";
+        child.val().from = user.uid ? pos = "right" : pos = "left"
         this.props.profile.messages.push({
           from: child.val().from,
           to: child.val().to,
@@ -88,6 +91,7 @@ handleSend(message = {}, rowID = null) {
         //maxHeight={Dimensions.get('window').height - 64} // 64 for the navBar
         senderName={this.props.profile.currentUser.uid}
         displayNames={true}
+        senderImage={this.props.profile.images.origURL}
         keyboardDismissMode="on-drag"
         styles={{
           bubbleLeft: {
