@@ -38,7 +38,7 @@ class Database {
       name: `${user.uid}`,
       from: '',
       image: {uri: 'https://facebook.github.io/react/img/logo_og.png'},
-      position: 'left',
+      position: 'right',
       date: new Date(),
     };
     return firebase.database().ref(userImagePath).push(postData);
