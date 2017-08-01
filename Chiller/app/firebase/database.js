@@ -3,6 +3,7 @@
 */
 import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
+import { connect } from 'react-redux';
 import * as firebase from "firebase";
 
 let currentUrl = 5;
@@ -44,10 +45,8 @@ class Database {
   }
   static getMessages(user) {
     let userMessagesPath = "/user/" + user.uid + "/messages";
-    let ref = firebase.database().ref(userMessagesPath)
     return ref;
   }
-
 
   static setUsername(userId, username, city, age) {
 
@@ -123,5 +122,14 @@ class Database {
     // });
   }
 }
+const mapStateToProps = state => ({
+  profile: state.profile,
+});
 
-module.exports = Database;
+const mapDispatchToProps = {};
+
+export default connect(
+             mapStateToProps,
+             mapDispatchToProps
+           )(Database);
+//module.exports = Database;

@@ -206,7 +206,6 @@ getImage() {
 // });
 // }
   render() {
-    console.log("messages", this.props.profile.messages);
     return (
        <View style={{backgroundColor: '#f7f391'}}>
          <View  style={{ marginTop: 40}}>

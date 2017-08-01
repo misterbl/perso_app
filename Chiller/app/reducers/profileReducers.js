@@ -10,7 +10,8 @@ const INIT = {
   avatar: null,
   images:[],
   users:[],
-  messages:[]
+  messages:[],
+  key: null
 }
 export default (state = INIT, { type, username, age, city, currentUser, geoLocation, latitude, longitude, error }) => {
   switch (type) {
