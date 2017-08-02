@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import firebase from '../firebase/firebase'
-
+import Database from "../firebase/database";
 //import Realm from 'realm';
 import { connect } from 'react-redux';
 import {
