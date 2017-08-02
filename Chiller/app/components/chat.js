@@ -24,30 +24,45 @@ class Chat extends React.Component {
   this.state = {
     key: 1}
 }
-componentDidMount() {
-  const user = this.props.profile.currentUser;
+async componentDidMount() {
+  const user = await this.props.profile.currentUser;
+  const userChatting = this.props.userChatting;
+
+ let messagesUserPath = firebase.database().ref("/messages/" + user.uid + userChatting.key);
+ this.listenForMessages(messagesUserPath);
   // Database.getMessages(user)
   // let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
   // this.listenForMessages(messagesRef);
 }
   // componentWillMount() {
-  //   let _this = this;
+  //   const user = this.props.profile.currentUser;
+  //   const userChatting = this.props.userChatting;
+  //
+  //  let messagesUserPath = firebase.database().ref("/messages/" + user.uid + userChatting.key);
+  //  this.listenForMessages(messagesUserPath);
   // }
 
-  // listenForMessages(messagesRef) {
-  //   messagesRef.on('value', (dataSnapshot) => {
-  //     dataSnapshot.forEach((child) => {
-  //       this.props.profile.messages.push({
-  //         from: child.val().from,
-  //         image: child.val().image,
-  //         name: child.val().name,
-  //         position: child.val().position,
-  //         text: child.val().text,
-  //         uniqueId  : child.val().key
-  //       });
-  //     });
-  //     });
-  // }
+  listenForMessages(messagesRef) {
+    console.log(this.props.profile.messages);
+    messagesRef.once('value', (dataSnapshot) => {
+      console.log('dataSnapshot', dataSnapshot);
+      dataSnapshot.forEach((child) => {
+        console.log('child', child);
+        let pos = "";
+        child.val().from = user.uid ? pos = "right" : pos = "left"
+        this.props.profile.messages.push({
+          from: child.val().from,
+          image: child.val().image,
+          name: child.val().name,
+          position: pos,
+          text: child.val().text,
+          uniqueId  : Math.random()
+        });
+      });
+      });
+      console.log(this.props.profile.messages);
+
+  }
 
   // handleSend(message = {}, rowID = null) {
   //   console.log("this", this);
@@ -56,6 +71,7 @@ componentDidMount() {
 
   handleReceive(message = {}) {
       this._GiftedMessenger.appendMessage(message);
+      console.log("handleReceive");
     };
 
 getMessages() {
@@ -64,8 +80,9 @@ getMessages() {
 
 handleSend(message = {}, rowID = null) {
   console.log(this);
-  Database.setMessages(message, user)
-  this.setState({ key: this.state + 1 });
+  Database.setMessages(message, user, this.props.userChatting)
+  this.setState({ key: this.state.key + 1 });
+  //this.handleReceive(message)
 };
 
   render() {
@@ -73,6 +90,7 @@ handleSend(message = {}, rowID = null) {
     console.log("render", this);
     return (
       <View key={this.state.key}>
+        { messages &&
       <GiftedMessenger
         ref={(c) => this._GiftedMessenger = c}
         messages={messages}
@@ -92,7 +110,7 @@ handleSend(message = {}, rowID = null) {
             marginLeft: 70,
           },
         }}
-      />
+      />}
        </View>
     );
   };

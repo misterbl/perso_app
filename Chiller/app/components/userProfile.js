@@ -7,6 +7,7 @@ import { Header } from './HomeScreen';
 
 class UserProfile extends Component {
   render() {
+    console.log(this);
     return (
       <View style={{backgroundColor: '#f7f391'}}>
         <View  style={{ marginTop: 40}}>
@@ -18,7 +19,7 @@ class UserProfile extends Component {
         source={require('../assets/userAvatar.png')}
       >
         <ScrollView style={{ backgroundColor: "transparent"}}>
-          <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => this.props.navigator.push({name: "Chat"})} />
+          <Icon style={{ width: 100, height: 50 }} name='sms' onPress={() => this.props.navigator.push({name: "Chat", passProps: { userChatting: this.props.userChatting}})} />
         <Text>{"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"}</Text>
         <Text>Helloooooo</Text>
         <Text>Helloooooo</Text>
