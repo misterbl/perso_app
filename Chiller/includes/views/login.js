@@ -48,7 +48,7 @@ class Login extends Component {
 
             setTimeout(() => {
                 this.props.navigator.push({
-                    name: "Create Profile"
+                    name: "Profiles List"
                 })
             }, 1500);
 
@@ -73,7 +73,7 @@ class Login extends Component {
 
             setTimeout(() => {
                 this.props.navigator.push({
-                    name: "Create Profile"
+                    name: "Profiles List"
                 })
             }, 1500);
 

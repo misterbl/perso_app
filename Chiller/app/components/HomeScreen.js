@@ -11,6 +11,7 @@ let _this;
 export class Header extends React.Component {
 
   render() {
+    console.log("header", this);
     return (
       <View style={{flex: 1, flexDirection: 'row' }}>
         <Icon style={{ marginLeft: 60, width: 100, height: 50, backgroundColor: "transparent" }}

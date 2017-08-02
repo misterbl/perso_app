@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppRegistry, Navigator, } from "react-native";
+import { AppRegistry, Navigator, View, Text } from "react-native";
 import * as firebase from "firebase";
 import { Provider } from 'react-redux';
 import Home from "./includes/views/home";
@@ -11,6 +11,7 @@ import ProfilesList from './app/components/ProfilesList'
 import UserProfile from './app/components/userProfile'
 import {Header} from './app/components/HomeScreen'
 import Chat from './app/components/chat'
+import StackLayout from './app/layouts/StackLayout'
 
 
 const APP_BASE = 'https://chiller-58d16.firebaseio.com'
@@ -21,7 +22,7 @@ const APP_BASE = 'https://chiller-58d16.firebaseio.com'
         storageBucket: 'chiller-58d16.appspot.com',
     };
 
-export class App extends Component {
+class AppContent extends Component {
   constructor(props) {
     super(props);
     //firebase.initializeApp(FIREBASE_CONFIG);
@@ -37,7 +38,7 @@ export class App extends Component {
   getInitialView() {
     firebase.auth().onAuthStateChanged((user) => {
       // let initialView = user ? "Home" : "Login";
-      let initialView = "Create Profile"
+      let initialView = "Profiles List"
       this.setState({
         userLoaded: true,
         initialView: initialView
@@ -82,19 +83,41 @@ export class App extends Component {
   }
 
   render() {
-    if (this.state.userLoaded) {
+    // console.log(this);
+    // if (this.state.userLoaded) {
       return (
-         <Provider store={store}>
-          <Navigator
-              initialRoute={{name: this.state.initialView}}
-              renderScene={App.renderScene}
-              configureScene={App.configureScene}
-          />
-        </Provider>);
-    } else {
-      return null;
-    }
-  }
+
+        <StackLayout/>
+          //  <View style={{backgroundColor: '#f7f391'}}>
+
+        //      <View  style={{ marginTop: 40}}>
+        //
+        //     <Header/>
+        //     <Navigator
+        //     initialRoute={{name: this.state.initialView}}
+        //     renderScene={AppContent.renderScene}
+        //     configureScene={AppContent.configureScene}
+        // />
+        //   </View>
+        // {/* <Text>Hi</Text>
+        // </View>
+        // //
+        // // </View> */}
+  );
+  //   } else {
+  //     return null;
+  //   }
+  // }
+}
 }
 
+export class App extends Component {
+  render() {
+    console.log(this);
+      return (
+         <Provider store={store}>
+           <AppContent/>
+        </Provider>)
+  }
+}
 AppRegistry.registerComponent('Chiller', () => App);

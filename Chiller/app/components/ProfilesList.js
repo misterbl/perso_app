@@ -17,6 +17,7 @@ import {
 import { setProfile, assign } from '../actions/profileActions.js'
 import { Header } from './HomeScreen'
 
+
 class ProfilesList extends Component {
 
   componentWillMount() {
@@ -36,6 +37,7 @@ class ProfilesList extends Component {
 
   async componentDidMount() {
     console.log(this);
+    this.props.profile.nav = this.props.navigator;
     user = await firebase.auth().currentUser;
     this.props.profile.currentUser = user;
       let tasksRef = firebase.database().ref("/user/" + user.uid + "/images");
@@ -112,13 +114,15 @@ class ProfilesList extends Component {
 )
 
   render() {
+    console.log(this);
     const style= {justifyContent: "flex-start", flexDirection: "row", flexWrap: "nowrap", justifyContent: "flex-start" };
     //if (this.props.profile.users) {console.log("hello", this.props.profile.users[0].images.image1.url)};
     return (
       <View style={{flex: 1, backgroundColor: '#f7f391'}}>
-        <View  style={{ marginTop: 40}}>
+        {/* <View  style={{ marginTop: 40}}>
           <Header {...this.props}/>
-          </View>
+          </View> */}
+          <Text>Helloo</Text>
           <View style={style}>
             {this.props.profile.users && this.mapUsers(this.props.profile.users)}
             {/* <TouchableHighlight onPress={() => this.props.navigator.push({name: "User Profile"})}>
