@@ -22,7 +22,7 @@ class UserProfile extends Component {
    messagesRef.once('value', (dataSnapshot) => {
      dataSnapshot.forEach((child) => {
        let pos = "";
-       child.val().from = user.uid ? pos = "right" : pos = "left"
+       child.val().from === user.uid ? pos = "right" : pos = "left"
        this.props.profile.messages.push({
          from: child.val().from,
          image: child.val().image,
@@ -41,6 +41,7 @@ this.props.navigator.push({name: "Chat", passProps: { userChatting: this.props.u
 console.log("userProfile")
   }
   render() {
+    console.log(this);
     return (
       <View style={{backgroundColor: '#f7f391'}}>
         <View  style={{ marginTop: 40}}>

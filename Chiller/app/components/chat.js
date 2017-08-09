@@ -50,7 +50,7 @@ handleSend(message = {}, rowID = null) {
 };
 
   render() {
-    console.log(this.props.profile.messages);
+    console.log(this.props.userChatting._key);
     const messages = this.props.profile.messages;
     return (
       <View key={this.state.key}>

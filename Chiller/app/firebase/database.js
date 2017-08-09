@@ -45,8 +45,8 @@ class Database {
   // }
 
   static setMessages(message, user, userChatting) {
-    let messagesUserPath = "/messages/" + user.uid + userChatting.key;
-    let messagesUserChattingPath = "/messages/" + userChatting.key + user.uid ;
+    let messagesUserPath = "/messages/" + user.uid + userChatting._key;
+    let messagesUserChattingPath = "/messages/" + userChatting._key + user.uid ;
     let postData = {
       text: `${message.text}`,
       name: `${user.username}`,
