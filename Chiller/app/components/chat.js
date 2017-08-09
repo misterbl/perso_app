@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import GiftedMessenger from 'react-native-gifted-messenger';
+//import { GiftedChat } from 'react-native-gifted-chat';
 import DismissKeyboard from "dismissKeyboard";
 import Database from "../firebase/database";
 import {Dimensions} from 'react';
@@ -26,52 +27,16 @@ class Chat extends React.Component {
 }
 async componentDidMount() {
   const user = await this.props.profile.currentUser;
-  const userChatting = this.props.userChatting;
-
- let messagesUserPath = firebase.database().ref("/messages/" + user.uid + userChatting.key);
- this.listenForMessages(messagesUserPath);
-  // Database.getMessages(user)
-  // let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
-  // this.listenForMessages(messagesRef);
 }
-  // componentWillMount() {
-  //   const user = this.props.profile.currentUser;
-  //   const userChatting = this.props.userChatting;
-  //
-  //  let messagesUserPath = firebase.database().ref("/messages/" + user.uid + userChatting.key);
-  //  this.listenForMessages(messagesUserPath);
-  // }
 
-  listenForMessages(messagesRef) {
-    console.log(this.props.profile.messages);
-    messagesRef.once('value', (dataSnapshot) => {
-      console.log('dataSnapshot', dataSnapshot);
-      dataSnapshot.forEach((child) => {
-        console.log('child', child);
-        let pos = "";
-        child.val().from = user.uid ? pos = "right" : pos = "left"
-        this.props.profile.messages.push({
-          from: child.val().from,
-          image: child.val().image,
-          name: child.val().name,
-          position: pos,
-          text: child.val().text,
-          uniqueId  : Math.random()
-        });
-      });
-      });
-      console.log(this.props.profile.messages);
 
-  }
-
-  // handleSend(message = {}, rowID = null) {
-  //   console.log("this", this);
-  //   Database.setMessages(message, user)
-  // };
-
-  handleReceive(message = {}) {
-      this._GiftedMessenger.appendMessage(message);
-      console.log("handleReceive");
+handleReceive(message = {}) {
+    let postData = {
+      text: message.text,
+      position: "right",
+      uniqueId: Math.random()
+    }
+      this.props.profile.messages.push(postData)
     };
 
 getMessages() {
@@ -79,15 +44,14 @@ getMessages() {
 }
 
 handleSend(message = {}, rowID = null) {
-  console.log(this);
   Database.setMessages(message, user, this.props.userChatting)
   this.setState({ key: this.state.key + 1 });
-  //this.handleReceive(message)
+  this.handleReceive(message)
 };
 
   render() {
+    console.log(this.props.profile.messages);
     const messages = this.props.profile.messages;
-    console.log("render", this);
     return (
       <View key={this.state.key}>
         { messages &&
