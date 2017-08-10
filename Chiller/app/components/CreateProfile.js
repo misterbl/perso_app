@@ -137,7 +137,7 @@ returnProfile(name, age, city) {
 
     saveUsername() {
         if (this.state.usernameInput) {
-            Database.setUsername(user.uid, this.state.usernameInput, this.state.cityInput, this.state.ageInput);
+            Database.setUsername(user.uid, this.state.usernameInput, this.state.cityInput, this.state.ageInput, this.state.longitude, this.state.latitude);
             //this.getImage();
             Database.uploadImage(user.uid, this.props.profile.image.uri)
             DismissKeyboard();

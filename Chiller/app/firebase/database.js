@@ -48,14 +48,16 @@ class Database {
     return ref;
   }
 
-  static setUsername(userId, username, city, age) {
+  static setUsername(userId, username, city, age, longitude, latitude) {
 
     let userUsernamePath = "/user/" + userId + "/details";
 
     return firebase.database().ref(userUsernamePath).set({
-      city: city,
-      username: username,
-      age: age,
+      city,
+      username,
+      age,
+      longitude,
+      latitude,
     })
 
   }
