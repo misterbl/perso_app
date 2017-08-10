@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import GiftedMessenger from 'react-native-gifted-messenger';
+//import { GiftedChat } from 'react-native-gifted-chat';
 import DismissKeyboard from "dismissKeyboard";
 import Database from "../firebase/database";
 import {Dimensions} from 'react';
@@ -24,38 +25,18 @@ class Chat extends React.Component {
   this.state = {
     key: 1}
 }
-componentDidMount() {
-  const user = this.props.profile.currentUser;
-  // Database.getMessages(user)
-  // let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
-  // this.listenForMessages(messagesRef);
+async componentDidMount() {
+  const user = await this.props.profile.currentUser;
 }
-  // componentWillMount() {
-  //   let _this = this;
-  // }
 
-  // listenForMessages(messagesRef) {
-  //   messagesRef.on('value', (dataSnapshot) => {
-  //     dataSnapshot.forEach((child) => {
-  //       this.props.profile.messages.push({
-  //         from: child.val().from,
-  //         image: child.val().image,
-  //         name: child.val().name,
-  //         position: child.val().position,
-  //         text: child.val().text,
-  //         uniqueId  : child.val().key
-  //       });
-  //     });
-  //     });
-  // }
 
-  // handleSend(message = {}, rowID = null) {
-  //   console.log("this", this);
-  //   Database.setMessages(message, user)
-  // };
-
-  handleReceive(message = {}) {
-      this._GiftedMessenger.appendMessage(message);
+handleReceive(message = {}) {
+    let postData = {
+      text: message.text,
+      position: "right",
+      uniqueId: Math.random()
+    }
+      this.props.profile.messages.push(postData)
     };
 
 getMessages() {
@@ -63,16 +44,17 @@ getMessages() {
 }
 
 handleSend(message = {}, rowID = null) {
-  console.log(this);
-  Database.setMessages(message, user)
-  this.setState({ key: this.state + 1 });
+  Database.setMessages(message, user, this.props.userChatting)
+  this.setState({ key: this.state.key + 1 });
+  this.handleReceive(message)
 };
 
   render() {
+     console.log("messages", this.props.profile.messages);
     const messages = this.props.profile.messages;
-    console.log("render", this);
     return (
       <View key={this.state.key}>
+        { messages &&
       <GiftedMessenger
         ref={(c) => this._GiftedMessenger = c}
         messages={messages}
@@ -92,7 +74,7 @@ handleSend(message = {}, rowID = null) {
             marginLeft: 70,
           },
         }}
-      />
+      />}
        </View>
     );
   };
