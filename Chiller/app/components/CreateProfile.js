@@ -63,8 +63,8 @@ class CreateProfile extends React.Component {
       let tasksRef = firebase.database().ref("/user/" + user.uid + "/images");
     this.listenForTasks(tasksRef);
       Database.getImages(user.uid)
-      let usersRef = firebase.database().ref("/user/");
-      this.listenForUsers(usersRef);
+      // let usersRef = firebase.database().ref("/user/");
+      // this.listenForUsers(usersRef);
       // let messagesRef = firebase.database().ref("/user/" + user.uid + "/messages");
       // this.listenForMessages(messagesRef);
   }

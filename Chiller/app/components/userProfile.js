@@ -14,7 +14,7 @@ class UserProfile extends Component {
   componentDidMount() {
     const userChatting = this.props.userChatting;
 
-   let messagesUserPath = firebase.database().ref("/messages/" + user.uid + userChatting.key);
+   let messagesUserPath = firebase.database().ref("/messages/" + user.uid + userChatting._key);
    this.listenForMessages(messagesUserPath);
  }
 

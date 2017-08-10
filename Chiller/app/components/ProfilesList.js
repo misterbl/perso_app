@@ -20,10 +20,26 @@ import { Header } from './HomeScreen'
 class ProfilesList extends Component {
 
 async componentDidMount() {
+  this.props.profile.users = [];
   user = await firebase.auth().currentUser;
+  let usersRef = firebase.database().ref("/user/");
+  this.listenForUsers(usersRef);
+
   }
 
-  mapUsers= users => (
+  listenForUsers(tasksRef) {
+  tasksRef.on('value', (dataSnapshot) => {
+  dataSnapshot.forEach((child) => {
+    this.props.profile.users.push({
+      details: child.val().details,
+      images: child.val().images,
+      _key: child.key
+    });
+  });
+  });
+  }
+
+  mapUsers = users => (
     users.map(user => {
       let imageKey = Object.keys(user.images)[0]
       let image = user.images[imageKey]
@@ -51,7 +67,8 @@ async componentDidMount() {
 )
 
   render() {
-    const style= {justifyContent: "flex-start", flexDirection: "row", flexWrap: "nowrap", justifyContent: "flex-start" };
+    console.log("users", this.props.profile.users);
+    const style= {justifyContent: "flex-start", flexDirection: "row", flexWrap: "wrap", justifyContent: "flex-start" };
     //if (this.props.profile.users) {console.log("hello", this.props.profile.users[0].images.image1.url)};
     return (
       <View style={{flex: 1, backgroundColor: '#f7f391'}}>
